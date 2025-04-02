@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="container login-container">
+        <h2>Login to Bizware CRM</h2>
+        <form method="POST" class="login-form" id="login-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="auth-button">Login</button>
+        </form>
+        <p class="forgot-password">
+            <a href="#">Forgot Password?</a> (To be implemented in the future)
+        </p>
+        <p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+    </div>
+
+    <!-- Error Message Popup (for both client-side and backend validation) -->
+    <div class="error-popup" id="login-error-popup">
+        <span id="login-error-message"></span>
+    </div>
+
+    <!-- Pass backend error messages to JavaScript via a hidden element -->
+    {% if messages %}
+        <div id="backend-messages" style="display: none;">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <span class="backend-error-message">{{ message }}</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

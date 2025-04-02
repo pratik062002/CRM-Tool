@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2>Welcome to Your Dashboard, {{ user_name|default:"User" }}!</h2>
+        <p>This is your Bizware CRM dashboard. Manage your leads and more!</p>
+        <div class="button-group">
+            <a href="{% url 'new_lead' %}" class="pill-button">Add New Lead</a>
+            <a href="{% url 'previous_leads' %}" class="pill-button">View Previous Leads</a>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="container signup-container">
+        <h2>Sign Up for Bizware CRM</h2>
+        <form method="POST" class="signup-form" id="signup-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" name="full_name" id="full-name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm-password" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit" class="auth-button">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+
+    <!-- Error Message Popup (for both client-side and backend validation) -->
+    <div class="error-popup" id="signup-error-popup">
+        <span id="signup-error-message"></span>
+    </div>
+
+    <!-- Pass backend error messages to JavaScript via a hidden element -->
+    {% if messages %}
+        <div id="backend-messages" style="display: none;">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <span class="backend-error-message">{{ message }}</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

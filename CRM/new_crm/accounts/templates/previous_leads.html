@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/previous_leads.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="previous-leads-page">
+        <h2>Previous Leads</h2>
+        {% if leads %}
+            <table class="leads-table">
+                <thead>
+                    <tr>
+                        <th>Series</th>
+                        <th>Job Title</th>
+                        <th>Lead Owner</th>
+                        <th>Salutation</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lead in leads %}
+                        <tr>
+                            <td>{{ lead.series }}</td>
+                            <td>{{ lead.job_title }}</td>
+                            <td>{{ lead.lead_owner }}</td>
+                            <td>{{ lead.salutation }}</td>
+                            <td>{{ lead.first_name }}</td>
+                            <td>{{ lead.middle_name }}</td>
+                            <td>{{ lead.last_name }}</td>
+                            <td>{{ lead.gender }}</td>
+                            <td>{{ lead.status }}</td>
+                            <td>
+                                <a href="{% url 'new_lead' %}?lead_id={{ lead.id }}" class="edit-button">Edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No leads found.</p>
+        {% endif %}
+        <div class="button-group">
+            <a href="{% url 'dashboard' %}" class="pill-button">Back to Dashboard</a>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/previous_leads.js' %}"></script>
+{% endblock %}

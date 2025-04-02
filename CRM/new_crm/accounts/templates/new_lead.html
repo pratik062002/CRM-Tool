@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/new_lead.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="new-lead-page">
+        <h2>{% if lead %}Edit Lead{% else %}Create New Lead{% endif %}</h2>
+        <form method="POST" action="{% url 'new_lead' %}{% if lead %}?lead_id={{ lead.id }}{% endif %}" class="lead-form">
+            {% csrf_token %}
+            <input type="text" name="series" placeholder="Series" value="{{ lead.series|default_if_none:'' }}" required>
+            <input type="text" name="job_title" placeholder="Job Title" value="{{ lead.job_title|default_if_none:'' }}" required>
+            <input type="text" name="lead_owner" placeholder="Lead Owner" value="{{ lead.lead_owner|default_if_none:'' }}" required>
+            
+            <select name="salutation" required>
+                <option value="" disabled {% if not lead %}selected{% endif %}>Select Salutation</option>
+                <option value="Mr" {% if lead.salutation == 'Mr' %}selected{% endif %}>Mr</option>
+                <option value="Mrs" {% if lead.salutation == 'Mrs' %}selected{% endif %}>Mrs</option>
+                <option value="Others" {% if lead.salutation == 'Others' %}selected{% endif %}>Others</option>
+            </select>
+
+            <input type="text" name="first_name" placeholder="First Name" value="{{ lead.first_name|default_if_none:'' }}" required>
+            <input type="text" name="middle_name" placeholder="Middle Name" value="{{ lead.middle_name|default_if_none:'' }}">
+            <input type="text" name="last_name" placeholder="Last Name" value="{{ lead.last_name|default_if_none:'' }}" required>
+
+            <select name="gender" required>
+                <option value="" disabled {% if not lead %}selected{% endif %}>Select Gender</option>
+                <option value="Male" {% if lead.gender == 'Male' %}selected{% endif %}>Male</option>
+                <option value="Female" {% if lead.gender == 'Female' %}selected{% endif %}>Female</option>
+                <option value="Other" {% if lead.gender == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+
+            <select name="status" required>
+                <option value="" disabled {% if not lead %}selected{% endif %}>Select Status</option>
+                <option value="Lead" {% if lead.status == 'Lead' %}selected{% endif %}>Lead</option>
+                <option value="Opportunity" {% if lead.status == 'Opportunity' %}selected{% endif %}>Opportunity</option>
+                <option value="Quotation" {% if lead.status == 'Quotation' %}selected{% endif %}>Quotation</option>
+                <option value="Converted" {% if lead.status == 'Converted' %}selected{% endif %}>Converted</option>
+            </select>
+
+            <button type="submit" class="pill-button">{% if lead %}Update{% else %}Save{% endif %}</button>
+        </form>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script src="{% static 'js/new_lead.js' %}"></script>
+{% endblock %}
